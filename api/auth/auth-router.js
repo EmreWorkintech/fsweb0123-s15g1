@@ -19,7 +19,7 @@ router.post('/login', async (req,res,next)=>{
         const { username, password } = req.body;
         const [registeredUser] = await User.getByFilter({username});
         if(registeredUser && bcrypt.compareSync(password, registeredUser.password)){
-            req.session.user = {registeredUser};
+            req.session.user = registeredUser;
             res.json({message: `Welcome back ${registeredUser.username}...`});
         } else {
             next({status:401, message:"Invalid credentials!..."})
