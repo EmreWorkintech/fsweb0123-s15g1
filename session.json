@@ -1,0 +1,28 @@
+{
+    "__meta__": {
+        "about": "HTTPie session file",
+        "help": "https://httpie.io/docs#sessions",
+        "httpie": "3.2.1"
+    },
+    "auth": {
+        "password": null,
+        "type": null,
+        "username": null
+    },
+    "cookies": [
+        {
+            "domain": "localhost.local",
+            "expires": 1683012472,
+            "name": "titan",
+            "path": "/",
+            "secure": false,
+            "value": "s%3AVVwf68ZfOCgEnGfZdugtYheJD2ht1uEr.F3d7dvrF1%2BCRFVRXHcvKmAWZKVhn7L00nWD63PyJWc0"
+        }
+    ],
+    "headers": [
+        {
+            "name": "Accept",
+            "value": "application/json, */*;q=0.5"
+        }
+    ]
+}

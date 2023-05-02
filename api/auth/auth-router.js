@@ -1,12 +1,14 @@
 const router = require('express').Router();
 const User = require('../users/users-model');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { HASH_ROUNDS, JWT_SECRET} = require('../../config/config');
 
 router.post('/register', async (req,res,next)=>{
     try {
-        const { username, password } = req.body;
-        const hashedPassword = bcrypt.hashSync(password, 8); //2 üzeri 12
-        const newUser = {username, password: hashedPassword};
+        const { username, password, role } = req.body;
+        const hashedPassword = bcrypt.hashSync(password, HASH_ROUNDS); //2 üzeri 8
+        const newUser = {username, password: hashedPassword, role};
         const result = await User.create(newUser);
         res.status(201).json({message: `Welcome to here ${result.username}...`})
     } catch(err){
@@ -19,8 +21,12 @@ router.post('/login', async (req,res,next)=>{
         const { username, password } = req.body;
         const [registeredUser] = await User.getByFilter({username});
         if(registeredUser && bcrypt.compareSync(password, registeredUser.password)){
-            req.session.user = registeredUser;
-            res.json({message: `Welcome back ${registeredUser.username}...`});
+            //req.session.user = registeredUser;
+            const token = generateToken(registeredUser);
+            res.json({
+                message: `Welcome back ${registeredUser.username}...`,
+                token
+            });
         } else {
             next({status:401, message:"Invalid credentials!..."})
         }
@@ -52,5 +58,17 @@ router.post('/password/reset', async (req,res,next)=>{
     res.json({message: "password reset working"})
 })
 
+function generateToken(user) {
+    const payload = {
+        userId: user.id,
+        name: user.username,
+        role_name: user.role_name
+    }
+    const options = {
+        expiresIn: "3h"
+    }
+    const token = jwt.sign(payload, JWT_SECRET, options);
+    return token;
+}
 
 module.exports = router;
