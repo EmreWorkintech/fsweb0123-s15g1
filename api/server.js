@@ -26,7 +26,9 @@ server.use(express.json());
     })
 }))
 */
-
+server.get('/', (req,res)=> {
+    res.json({message:'server up and running!...'});
+})
 server.use('/api/order', orderRouter);
 server.use('/api/user', userRouter);
 server.use('/api/auth', authRouter);
