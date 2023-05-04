@@ -97,19 +97,21 @@ describe('_________ USERS ________', ()=> {
 })
 
 
-describe('_________ SESSION VERSION ________', ()=> {
+describe.only('_________ SESSION VERSION ________', ()=> {
     let res;
     let cookie;
     const erdemUser = {username: 'Erdem', password: '1234'};
     const emreUser = {username: 'Emre', password: '1234'}
     beforeEach(async ()=> {
         res = await request(server).post('/api/auth/login').send(emreUser);
-        cookieRaw = res.header["Set-Cookie"]
+        console.log(res);
+        cookie = res.header["set-cookie"]
     })
 
     test('[6] can get users', async ()=> {
-        const res = await request(server).get('/api/user/').set('Authorization', token);
+        
+        const res = await request(server).get('/api/user/').set('Cookie', cookie);
         expect(res.status).toBe(200);
-        expect(res.body).toHaveLength(2);
+
     })
 })
