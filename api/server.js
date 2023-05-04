@@ -7,7 +7,7 @@ const session = require('express-session');
 const Store = require('connect-session-knex')(session);
 
 server.use(express.json());
-server.use(session({
+/*server.use(session({
     name: 'titan',
     secret: 'buraya secret girilecek',
     cookie: {
@@ -25,6 +25,7 @@ server.use(session({
         clearInterval: 1000*60*60
     })
 }))
+*/
 
 server.use('/api/order', orderRouter);
 server.use('/api/user', userRouter);

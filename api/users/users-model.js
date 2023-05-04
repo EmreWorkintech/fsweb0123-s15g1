@@ -49,8 +49,14 @@ async function create(user) {
     return newUser;
 }
 
+function remove(id) {
+    return db('Users').where('id', id).delete();
+}
+
 module.exports = {
-    getAll, 
+    getAll,
+    getById,
     getByFilter,
     create,
+    remove,
 }
